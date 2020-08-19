@@ -82,6 +82,7 @@ export default {
   },
   created() {
     axios
+      // .get(`${process.env.STRAPI_URL}/exercises`)
       .get('https://strapi-workout-backend.herokuapp.com/exercises')
       .then((response) => {
         console.log(response);
