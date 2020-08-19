@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import fetchService from '@/services/fetchService';
+
 export default {
   data() {
     return {
@@ -81,9 +82,8 @@ export default {
     };
   },
   created() {
-    axios
-      // .get(`${process.env.STRAPI_URL}/exercises`)
-      .get('https://strapi-workout-backend.herokuapp.com/exercises')
+    fetchService
+      .fetchStrapiData('exercises')
       .then((response) => {
         console.log(response);
         this.exercises = response.data;
