@@ -31,6 +31,17 @@ const routes = [
     name: 'exerciseDetail',
     component: ExerciseDetail,
   },
+  {
+    path: '/auth/login',
+    name: 'Login',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/auth/login.vue'),
+  },
+  {
+    path: '/auth/register',
+    name: 'Register',
+    component: () => import('../views/auth/register.vue'),
+  },
 ];
 
 const router = new VueRouter({
