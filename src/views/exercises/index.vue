@@ -42,7 +42,7 @@
       fixed
     >
       <template v-slot:cell(title)="data">
-        <router-link :to="{ path: 'exercises/' + data.item.slug }">{{
+        <router-link :to="{ path: 'exercise/' + data.item.slug }">{{
           data.item.title
         }}</router-link>
       </template>
