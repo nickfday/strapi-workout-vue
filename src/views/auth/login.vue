@@ -8,9 +8,7 @@
       <label for="password">Password:</label>
       <input v-model="password" type="text" name="password" value />
       <button type="submit" name="button">Login</button>
-      <div v-if="error">
-        There is an error
-      </div>
+      <div v-if="error">There is an error</div>
     </form>
   </div>
 </template>
@@ -19,29 +17,29 @@
 // import axios from 'axios';
 export default {
   data: () => ({
-    identifier: '',
-    password: '',
-    token: '',
-    error: false,
+    identifier: "",
+    password: "",
+    token: "",
+    error: false
   }),
 
   methods: {
     handleLogin() {
       this.$store
-        .dispatch('LOGIN', {
+        .dispatch("LOGIN", {
           identifier: this.identifier,
-          password: this.password,
+          password: this.password
         })
-        .then((success) => {
+        .then(success => {
           console.log(success);
-          this.$router.push('/');
+          this.$router.push("/");
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           this.error = true;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

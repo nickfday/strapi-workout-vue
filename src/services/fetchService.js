@@ -8,4 +8,7 @@ export default {
   fetchStrapiData(endpoint) {
     return apiClient.get(endpoint);
   },
+  postStrapiData(endpoint, payload) {
+    return apiClient.post(endpoint, payload);
+  },
 };
