@@ -36,39 +36,54 @@ export default new Vuex.Store({
     //       commit('SET_USER_DATA', data);
     //     });
     // },
-    LOGIN: ({ commit }, payload) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .post(
-            'https://strapi-workout-backend.herokuapp.com/auth/local',
-            payload,
-          )
-          .then(({ data, status }) => {
-            if (status === 200) {
-              console.log(data);
-              commit('SET_USER_DATA', data);
-              resolve(true);
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+
+    LOGIN({ commit }, credentials) {
+      return axios
+        .post(
+          'https://strapi-workout-backend.herokuapp.com/auth/local',
+          credentials,
+        )
+        .then(({ data, status }) => {
+          if (status === 200) {
+            commit('SET_USER_DATA', data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    REGISTER: ({ commit }, payload) => {
-      return new Promise((resolve, reject) => {
-        fetchService
-          .postStrapiData('/auth/local/register', payload)
-          .then(({ data, status }) => {
-            if (status === 201) {
-              resolve(true);
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+
+    REGISTER({ commit }, credentials) {
+      return axios
+        .post(
+          'https://strapi-workout-backend.herokuapp.com/auth/local/register',
+          credentials,
+        )
+        .then(({ data, status }) => {
+          if (status === 201) {
+            commit('SET_USER_DATA', data);
+            alert('ACCOUNT CREATED');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+
+    // REGISTER: ({ commit }, payload) => {
+    //   return new Promise((resolve, reject) => {
+    //     fetchService
+    //       .postStrapiData('/auth/local/register', payload)
+    //       .then(({ data, status }) => {
+    //         if (status === 201) {
+    //           resolve(true);
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         reject(error);
+    //       });
+    //   });
+    // },
     CLEAR_USER_DATA(state) {
       state.user = null;
       localStorage.removeItem('user');
