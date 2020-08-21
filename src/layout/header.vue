@@ -32,10 +32,10 @@
             <div v-if="!loggedIn">
               <b-dropdown-item href="/auth/register">Register</b-dropdown-item>
               <b-dropdown-item href="/auth/login">Login</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
             </div>
             <div v-else>
               <b-dropdown-item href="/athlete/dashboard">Dashboard</b-dropdown-item>
+              <b-dropdown-item @click="logout">Logout</b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -43,7 +43,10 @@
     </b-navbar>
 
     <div v-if="!loggedIn">You are not logged in</div>
-    <div v-else>You are logged in!</div>
+    <div v-else>
+      You are logged in!
+      <button @click="logout">Logout</button>
+    </div>
   </div>
 </template>
 
@@ -56,9 +59,11 @@ export default {
   computed: {
     ...authComputed
   },
-  methdods: {
+  methods: {
     logout() {
-      this.$store.dispatch("logout");
+      console.log("Log Out");
+      this.$store.dispatch("LOGOUT");
+      // this.$store.dispatch("logout");
     }
   }
 };
