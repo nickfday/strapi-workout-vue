@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO: Add container -->
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="/">Workout Mentor</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -12,8 +13,14 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+            <b-form-input
+              size="sm"
+              class="mr-sm-2"
+              placeholder="Search"
+            ></b-form-input>
+            <b-button size="sm" class="my-2 my-sm-0" type="submit"
+              >Search</b-button
+            >
           </b-nav-form>
 
           <b-nav-item-dropdown text="Lang" right>
@@ -34,7 +41,9 @@
               <b-dropdown-item href="/auth/login">Login</b-dropdown-item>
             </div>
             <div v-else>
-              <b-dropdown-item href="/athlete/dashboard">Dashboard</b-dropdown-item>
+              <b-dropdown-item href="/athlete/dashboard"
+                >Dashboard</b-dropdown-item
+              >
               <b-dropdown-item @click="logout">Logout</b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
@@ -51,21 +60,21 @@
 </template>
 
 <script>
-import { authComputed } from "@/store/helpers";
+import { authComputed } from '@/store/helpers';
 
 console.log(authComputed);
 
 export default {
   computed: {
-    ...authComputed
+    ...authComputed,
   },
   methods: {
     logout() {
-      console.log("Log Out");
-      this.$store.dispatch("LOGOUT");
+      console.log('Log Out');
+      this.$store.dispatch('LOGOUT');
       // this.$store.dispatch("logout");
-    }
-  }
+    },
+  },
 };
 </script>
 
