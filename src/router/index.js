@@ -48,6 +48,20 @@ const routes = [
     component: () => import('../views/athlete/dashboard.vue'),
     meta: { requriesAuth: true },
   },
+  {
+    path: '/athlete/activity-history',
+    name: 'ActivityHistory',
+    component: () => import('../views/athlete/activity-history.vue'),
+    meta: { requriesAuth: true },
+    beforeEnter: (to, from, next) => {
+      const loggedIn = localStorage.getItem('user');
+      if (!loggedIn) {
+        next('/');
+      } else {
+        next();
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({
@@ -58,9 +72,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('user');
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    console.log('redirect');
     next('/');
+  } else {
+    console.log('proceed');
+    next();
   }
-  next();
 });
 
 export default router;

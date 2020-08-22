@@ -17,6 +17,15 @@ export default new Vuex.Store({
       console.log(state);
       return !!state.user;
     },
+    getUserData(state) {
+      return state.user.user;
+    },
+    getJwtToken(state) {
+      return state.user.jwt;
+    },
+    getUserId(state) {
+      return state.user.user.id;
+    },
   },
   mutations: {
     SET_USER_DATA(state, userData) {
