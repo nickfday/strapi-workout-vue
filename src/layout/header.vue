@@ -66,15 +66,15 @@ console.log(authComputed);
 
 export default {
   computed: {
-    ...authComputed,
+    ...authComputed
   },
   methods: {
     logout() {
       console.log('Log Out');
       this.$store.dispatch('LOGOUT');
       // this.$store.dispatch("logout");
-    },
-  },
+    }
+  }
 };
 </script>
 

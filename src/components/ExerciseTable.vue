@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 v-if="title">{{title}}</h1>
+    <h1 v-if="title">{{ title }}</h1>
 
     <div v-if="showForm" class="exercise-form">
       <b-container>
@@ -9,9 +9,14 @@
             <b-form-input v-model="exerciseFilter" placeholder="Exercise" />
           </b-col>
           <b-col>
-            <b-form-select v-model="selectedType" :options="selectOptions('type')">
+            <b-form-select
+              v-model="selectedType"
+              :options="selectOptions('type')"
+            >
               <template v-slot:first>
-                <b-form-select-option :value="null">--Type--</b-form-select-option>
+                <b-form-select-option :value="null"
+                  >--Type--</b-form-select-option
+                >
               </template>
             </b-form-select>
           </b-col>
@@ -21,7 +26,9 @@
               :options="selectOptions('primaryMuscle')"
             >
               <template v-slot:first>
-                <b-form-select-option :value="null">--Primary Muscle--</b-form-select-option>
+                <b-form-select-option :value="null"
+                  >--Primary Muscle--</b-form-select-option
+                >
               </template>
             </b-form-select>
           </b-col>
@@ -41,9 +48,7 @@
         >
           <template v-slot:cell(title)="data">
             <router-link :to="{ path: 'exercise/' + data.item.slug }">
-              {{
-              data.item.title
-              }}
+              {{ data.item.title }}
             </router-link>
           </template>
 
@@ -63,30 +68,30 @@
 </template>
 
 <script>
-import fetchService from "@/services/fetchService";
+import fetchService from '@/services/fetchService';
 
 export default {
   data() {
     return {
-      exerciseFilter: "",
-      selectedPrimaryMuscle: "",
-      selectedType: "",
+      exerciseFilter: '',
+      selectedPrimaryMuscle: '',
+      selectedType: '',
       exercises: [],
       fields: [
         {
-          key: "title",
-          label: "Exercises",
+          key: 'title',
+          label: 'Exercises',
           sortable: true
         },
-        { key: "type", label: "Type", sortable: true },
-        { key: "primaryMuscle", label: "Primary Muscle", sortable: true }
+        { key: 'type', label: 'Type', sortable: true },
+        { key: 'primaryMuscle', label: 'Primary Muscle', sortable: true }
       ]
     };
   },
   props: {
     title: {
       type: String,
-      default: "Exercises"
+      default: 'Exercises'
     },
     showForm: {
       type: Boolean,
@@ -95,25 +100,25 @@ export default {
   },
   created() {
     fetchService
-      .fetchStrapiData("exercises")
-      .then(response => {
+      .fetchStrapiData('exercises')
+      .then((response) => {
         console.log(response);
         this.exercises = response.data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   },
   methods: {
     selectOptions(field) {
       const unique = [
-        ...new Set(this.formattedExercises.map(item => item[field]))
+        ...new Set(this.formattedExercises.map((item) => item[field]))
       ];
       return unique;
     },
     clearFilters() {
-      console.log("clicked");
-      this.exerciseFilter = "";
+      console.log('clicked');
+      this.exerciseFilter = '';
       this.selectedPrimaryMuscle = null;
       this.selectedType = null;
     }
@@ -121,7 +126,7 @@ export default {
 
   computed: {
     filteredList() {
-      return this.formattedExercises.filter(exercise => {
+      return this.formattedExercises.filter((exercise) => {
         if (
           this.selectedPrimaryMuscle &&
           this.selectedPrimaryMuscle != exercise.primaryMuscle
@@ -137,13 +142,13 @@ export default {
       });
     },
     formattedExercises() {
-      return this.exercises.map(exercise => {
+      return this.exercises.map((exercise) => {
         return {
           title: exercise.title,
-          type: exercise.type.replace(/_/g, " "),
+          type: exercise.type.replace(/_/g, ' '),
           primaryMuscle: exercise.primaryMuscle
             ? exercise.primaryMuscle.title
-            : "",
+            : '',
           slug: exercise.slug
         };
       });

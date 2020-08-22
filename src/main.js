@@ -23,5 +23,5 @@ new Vue({
       this.$store.commit('SET_USER_DATA', userData);
     }
   },
-  render: (h) => h(App),
+  render: (h) => h(App)
 }).$mount('#app');
