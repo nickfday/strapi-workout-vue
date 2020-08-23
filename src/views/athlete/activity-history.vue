@@ -2,7 +2,10 @@
   <div>
     <div v-for="session in sessions" v-bind:key="session.title">
       <h2>{{ session.title }}</h2>
-      <div v-for="group in session.sessionGroup" v-bind:key="group.exercise.title">
+      <div
+        v-for="group in session.sessionGroup"
+        v-bind:key="group.exercise.title"
+      >
         <h5>{{ group.exercise.title }}</h5>
         <p v-for="set in group.session" v-bind:key="set.reps">
           Reps: {{ set.reps }}
@@ -16,7 +19,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   data() {
@@ -35,12 +38,11 @@ export default {
           }
         }
       )
-      .then(response => {
+      .then((response) => {
         this.sessions = response.data;
       });
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

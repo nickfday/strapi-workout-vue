@@ -16,11 +16,11 @@
           class="mb-2"
         >
           <b-card-text>{{ card.body }}</b-card-text>
-          <router-link :to="{ path: 'exercise/' + card.slug }">
+          <!-- <router-link :to="{ path: 'exercise/' + card.slug }">
             <b-button variant="primary">
               {{ card.link.title }}
             </b-button>
-          </router-link>
+          </router-link> -->
         </b-card>
       </b-col>
     </b-row>
@@ -36,6 +36,7 @@ export default {
       pageData: []
     };
   },
+
   created() {
     fetchService
       .fetchStrapiData('pages/1')

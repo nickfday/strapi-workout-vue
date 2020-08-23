@@ -67,7 +67,7 @@ import fetchService from '@/services/fetchService';
 export default {
   data() {
     return {
-      exercise: {},
+      exercise: {}
     };
   },
   created() {
@@ -80,7 +80,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-  },
+  }
 };
 </script>
 
