@@ -17,24 +17,24 @@
 // import axios from 'axios';
 export default {
   data: () => ({
-    identifier: "",
-    password: "",
-    token: "",
+    identifier: '',
+    password: '',
+    token: '',
     error: false
   }),
 
   methods: {
     handleLogin() {
       this.$store
-        .dispatch("LOGIN", {
+        .dispatch('LOGIN', {
           identifier: this.identifier,
           password: this.password
         })
-        .then(success => {
+        .then((success) => {
           console.log(success);
-          this.$router.push("/");
+          this.$router.push('/');
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.error = true;
         });

@@ -81,6 +81,7 @@ router.beforeEach((to, from, next) => {
     console.log('Forbidden');
     next('/auth/login');
   } else {
+    console.log('granted');
     // Start the route progress bar.
     NProgress.start();
     next();

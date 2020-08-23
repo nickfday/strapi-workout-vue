@@ -3,37 +3,35 @@
     <h1 v-if="title">{{ title }}</h1>
 
     <div v-if="showForm" class="exercise-form">
-      <b-container>
-        <b-row>
-          <b-col>
-            <b-form-input v-model="exerciseFilter" placeholder="Exercise" />
-          </b-col>
-          <b-col>
-            <b-form-select
-              v-model="selectedType"
-              :options="selectOptions('type')"
-            >
-              <template v-slot:first>
-                <b-form-select-option :value="null"
-                  >--Type--</b-form-select-option
-                >
-              </template>
-            </b-form-select>
-          </b-col>
-          <b-col>
-            <b-form-select
-              v-model="selectedPrimaryMuscle"
-              :options="selectOptions('primaryMuscle')"
-            >
-              <template v-slot:first>
-                <b-form-select-option :value="null"
-                  >--Primary Muscle--</b-form-select-option
-                >
-              </template>
-            </b-form-select>
-          </b-col>
-        </b-row>
-      </b-container>
+      <b-row>
+        <b-col>
+          <b-form-input v-model="exerciseFilter" placeholder="Exercise" />
+        </b-col>
+        <b-col>
+          <b-form-select
+            v-model="selectedType"
+            :options="selectOptions('type')"
+          >
+            <template v-slot:first>
+              <b-form-select-option :value="null"
+                >--Type--</b-form-select-option
+              >
+            </template>
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            v-model="selectedPrimaryMuscle"
+            :options="selectOptions('primaryMuscle')"
+          >
+            <template v-slot:first>
+              <b-form-select-option :value="null"
+                >--Primary Muscle--</b-form-select-option
+              >
+            </template>
+          </b-form-select>
+        </b-col>
+      </b-row>
     </div>
 
     <b-container>

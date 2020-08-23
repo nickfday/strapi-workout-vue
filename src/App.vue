@@ -1,16 +1,9 @@
 <template>
   <div id="app">
     <Header />
-    <div>
-      <b-container class="bv-example-row">
-        <b-row>
-          <br />
-          <br />
-          <nuxt />
-        </b-row>
-      </b-container>
-    </div>
-    <router-view />
+    <b-container>
+      <router-view />
+    </b-container>
   </div>
 </template>
 
@@ -18,8 +11,8 @@
 import Header from '@/layout/header';
 export default {
   components: {
-    Header,
-  },
+    Header
+  }
 };
 </script>
 
