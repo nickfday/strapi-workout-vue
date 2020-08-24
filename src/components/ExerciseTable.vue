@@ -11,16 +11,6 @@
           ></v-text-field>
         </v-col>
         <v-col>
-          <!-- <b-form-select
-            v-model="selectedType"
-            :options="selectOptions('type')"
-          >
-            <template v-slot:first>
-              <b-form-select-option :value="null"
-                >--Type--</b-form-select-option
-              >
-            </template>
-          </b-form-select> -->
           <v-select
             v-model="selectedType"
             :items="selectOptions('type')"
@@ -39,34 +29,12 @@
       </v-row>
     </div>
 
-    <b-container>
-      <b-row>
-        <b-table
-          class="exercise-table"
-          v-if="filteredList.length"
-          :fields="fields"
-          :items="filteredList"
-          responsive="sm"
-          fixed
-        >
-          <template v-slot:cell(title)="data">
-            <router-link :to="{ path: 'exercise/' + data.item.slug }">
-              {{ data.item.title }}
-            </router-link>
-          </template>
-
-          <!-- Optional default data cell scoped slot -->
-          <template v-slot:cell()="data">{{ data.value }}</template>
-        </b-table>
-
-        <div v-else>
-          <p>
-            No Exerises found
-            <button v-on:click="clearFilters()">Clear Filters</button>
-          </p>
-        </div>
-      </b-row>
-    </b-container>
+    <v-data-table
+      :headers="fields"
+      :items="filteredList"
+      :items-per-page="15"
+      class="elevation-1"
+    ></v-data-table>
   </div>
 </template>
 
@@ -82,12 +50,16 @@ export default {
       exercises: [],
       fields: [
         {
-          key: 'title',
-          label: 'Exercises',
+          text: 'Exercises',
+          value: 'title',
           sortable: true
         },
-        { key: 'type', label: 'Type', sortable: true },
-        { key: 'primaryMuscle', label: 'Primary Muscle', sortable: true }
+        { text: 'Type', value: 'type', sortable: true },
+        {
+          text: 'Primary Muscle',
+          value: 'primaryMuscle',
+          sortable: true
+        }
       ]
     };
   },
@@ -160,16 +132,4 @@ export default {
 };
 </script>
 
-<style>
-.exercise-form {
-  margin-bottom: 40px;
-}
-/* TODO: Use Bootstrap class */
-.exercise-table thead {
-  background: #373a3c;
-  color: #ffffff;
-}
-.exercise-table thead span.sr-only {
-  color: #ffffff;
-}
-</style>
+<style></style>
