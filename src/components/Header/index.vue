@@ -26,6 +26,7 @@
                 :to="item.slug"
                 v-for="item in userMenuComputed"
                 :key="item.title"
+                @click.native="handleLogout(item.logout)"
               >
                 <v-list-item>
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -89,6 +90,12 @@ export default {
         title: 'Dashboard',
         slug: '/athlete/dashboard',
         auth: true
+      },
+      {
+        title: 'Logout',
+        slug: '/athlete/dashboard',
+        auth: true,
+        logout: true
       }
     ]
   }),
@@ -97,6 +104,15 @@ export default {
       return this.userMenu.filter((item) => {
         return this.$store.getters.loggedIn ? item.auth : !item.auth;
       });
+    }
+  },
+  methods: {
+    handleLogout(logout) {
+      if (logout) {
+        return this.$store.dispatch('LOGOUT');
+      } else {
+        return;
+      }
     }
   }
 };
