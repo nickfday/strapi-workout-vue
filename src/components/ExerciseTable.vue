@@ -3,12 +3,15 @@
     <h1 v-if="title">{{ title }}</h1>
 
     <div v-if="showForm" class="exercise-form">
-      <b-row>
-        <b-col>
-          <b-form-input v-model="exerciseFilter" placeholder="Exercise" />
-        </b-col>
-        <b-col>
-          <b-form-select
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="exerciseFilter"
+            label="Exercise"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <!-- <b-form-select
             v-model="selectedType"
             :options="selectOptions('type')"
           >
@@ -17,21 +20,23 @@
                 >--Type--</b-form-select-option
               >
             </template>
-          </b-form-select>
-        </b-col>
-        <b-col>
-          <b-form-select
+          </b-form-select> -->
+          <v-select
+            v-model="selectedType"
+            :items="selectOptions('type')"
+            clearable
+            label="Type"
+          ></v-select>
+        </v-col>
+        <v-col>
+          <v-select
             v-model="selectedPrimaryMuscle"
-            :options="selectOptions('primaryMuscle')"
-          >
-            <template v-slot:first>
-              <b-form-select-option :value="null"
-                >--Primary Muscle--</b-form-select-option
-              >
-            </template>
-          </b-form-select>
-        </b-col>
-      </b-row>
+            :items="selectOptions('primaryMuscle')"
+            clearable
+            label="Primary Muscle"
+          ></v-select>
+        </v-col>
+      </v-row>
     </div>
 
     <b-container>
