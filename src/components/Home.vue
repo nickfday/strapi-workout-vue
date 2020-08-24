@@ -1,7 +1,30 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <b-row>
+    <v-row>
+      <v-col
+        v-for="card in pageData.components[1].cardGroup"
+        v-bind:key="card.title"
+        :md="6"
+      >
+        <v-card class="mx-auto" :to="card.linkSlug">
+          <v-img
+            class="white--text align-end"
+            height="200px"
+            :src="card.media.url"
+          >
+            <v-card-title>{{ card.title }}</v-card-title>
+          </v-img>
+
+          <!-- <v-card-subtitle class="pb-0">Number 10</v-card-subtitle> -->
+
+          <v-card-text class="text--primary">
+            <div>{{ card.body }}</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- <b-row>
       <b-col
         v-for="card in pageData.components[1].cardGroup"
         v-bind:key="card.title"
@@ -16,14 +39,14 @@
           class="mb-2"
         >
           <b-card-text>{{ card.body }}</b-card-text>
-          <!-- <router-link :to="{ path: 'exercise/' + card.slug }">
+          <router-link :to="{ path: card.linkSlug }" v-if="card.linkSlug">
             <b-button variant="primary">
-              {{ card.link.title }}
+              {{ card.linkTitle }}
             </b-button>
-          </router-link> -->
+          </router-link>
         </b-card>
       </b-col>
-    </b-row>
+    </b-row> -->
   </div>
 </template>
 
