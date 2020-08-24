@@ -34,6 +34,10 @@
       :items="filteredList"
       :items-per-page="15"
       class="elevation-1"
+      :loading="loading"
+      loading-text="Fetching Exercises"
+      no-results-text="No Exercises Found. Please adjust filters"
+      sort-by="title"
     ></v-data-table>
   </div>
 </template>
@@ -48,6 +52,7 @@ export default {
       selectedPrimaryMuscle: '',
       selectedType: '',
       exercises: [],
+      loading: true,
       fields: [
         {
           text: 'Exercises',
@@ -78,6 +83,7 @@ export default {
       .fetchStrapiData('exercises')
       .then((response) => {
         console.log(response);
+        this.loading = false;
         this.exercises = response.data;
       })
       .catch((error) => {
