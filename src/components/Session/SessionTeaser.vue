@@ -1,80 +1,76 @@
 <template>
   <v-card outlined class="mb-10 p-2">
-    <router-link
-      :to="{
-        name: 'sessionDetail',
-        path: `session/${session.id}`,
-        params: { session: session }
-      }"
-    >
-      <h3>{{ session.title }}</h3>
-    </router-link>
-
-    <v-btn v-on:click="handleShowDetail">Session Detail</v-btn>
-
-    <!-- <div v-on:click="handleShowDetail">Click Me</div> -->
-    Show Detail: {{ showDetail }}
-    <div v-if="!showDetail">
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Exercise</th>
-              <th class="text-left">Best Set</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="set in session.sessionGroup" v-bind:key="set.title">
-              <td>{{ set.session.length }} x {{ set.exercise.title }}</td>
-              <td>{{ bestSet(set.session) }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </div>
-
-    <div v-else>
-      <v-simple-table
-        v-for="set in session.sessionGroup"
-        v-bind:key="set.title"
+    <v-row align="center">
+      <v-col>
+        <h3>{{ session.title }}</h3>
+      </v-col>
+      <v-col>
+        <v-icon>mdi-calendar-range</v-icon>
+        {{ format(new Date(session.date), 'MM/dd/yyyy') }}</v-col
       >
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">{{ set.exercise.title }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in set.session" v-bind:key="item.title">
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.resistance }}kg x {{ item.reps }}</td>
-            </tr>
-          </tbody>
+      <v-col>
+        <v-icon>mdi-clock-time-eight-outline</v-icon>
+        {{ session.time }} mins
+      </v-col>
 
-          <tbody></tbody>
-        </template>
-      </v-simple-table>
-    </div>
-  </v-card>
+      <v-col>
+        <v-btn v-on:click="handleShowDetail">
+          <span v-if="!showDetail">Detail View</span>
+          <span v-else>Simple View</span>
+        </v-btn>
+      </v-col>
+    </v-row>
 
-  <!-- <div
-      v-for="group in session.sessionGroup"
-      v-bind:key="group.exercise.title"
+    <v-simple-table v-if="!showDetail" fixed-header>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left" width="40%">Exercise</th>
+            <th class="text-left">Best Set</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="set in session.sessionGroup" v-bind:key="set.title">
+            <td>{{ set.session.length }} x {{ set.exercise.title }}</td>
+            <td>{{ bestSet(set.session) }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+
+    <v-simple-table
+      v-else
+      v-for="set in session.sessionGroup"
+      v-bind:key="set.title"
     >
-      <p v-for="set in group.session" v-bind:key="set.reps">
-        Reps: {{ set.reps }}
-        <br />
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left" width="40%">{{ set.exercise.title }}</th>
+            <th>Resistance/Reps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in set.session" v-bind:key="item.title">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.resistance }}kg x {{ item.reps }}</td>
+          </tr>
+        </tbody>
 
-        Resistance: {{ set.resistance }}kg
-      </p>
-  </div>-->
+        <tbody></tbody>
+      </template>
+    </v-simple-table>
+  </v-card>
 </template>
 
 <script>
+import { format } from 'date-fns';
+
 export default {
   data() {
     return {
-      showDetail: false
+      showDetail: false,
+      format
     };
   },
   props: {
