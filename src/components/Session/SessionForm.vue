@@ -30,6 +30,8 @@
                 label="Exercises"
                 clearable
                 autocomplete
+                item-text="title"
+                item-value="id"
               ></v-select>
             </th>
             <th>Resistance/Reps</th>
