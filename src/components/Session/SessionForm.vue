@@ -28,6 +28,8 @@
                 label="Exercises"
                 :items="exercises"
                 item-text="title"
+                v-model="set.exercise"
+                clearable=""
               ></v-select>
             </th>
             <th>Resistance/Reps</th>
@@ -46,41 +48,29 @@
       </template>
     </v-simple-table>
     <v-btn v-on:click="addExercise">Add Exercise</v-btn>
+    <br />
+    <br />
+    <v-btn v-on:click="saveSession">Save Session</v-btn>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import { format } from 'date-fns';
+import fetchService from '@/services/fetchService';
 
 export default {
   data() {
     return {
       format,
-      exercises: [
-        {
-          id: 1,
-          title: 'Bench Press'
-        },
-        {
-          id: 2,
-          title: 'Deadlift'
-        }
-      ],
+      exercises: [],
       session: {
         id: 1,
         title: '',
         date: Date.now(),
-        user: {
-          id: 2,
-          username: 'nick@finley-day.com',
-          email: 'nick@finley-day.com',
-          provider: 'local',
-          confirmed: true,
-          blocked: false,
-          role: 1,
-          created_at: '2020-08-10T20:35:24.839Z',
-          updated_at: '2020-08-19T14:02:12.627Z'
-        },
+        exercise: null,
+        user: this.$store.getters.getUserData,
+
         created_at: '2020-08-10T22:39:12.803Z',
         updated_at: '2020-08-27T15:01:53.772Z',
         duration: null,
@@ -126,14 +116,38 @@ export default {
     };
   },
   created() {
-    //this.initializeSet();
+    fetchService
+      .fetchStrapiData('exercises')
+      .then((response) => {
+        console.log(response);
+        this.loading = false;
+        this.exercises = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     addExercise() {
       this.session.sessionGroup.push({
-        id: 2,
+        id: 6,
         session: [{ id: 1, reps: null, resistance: null }]
       });
+    },
+    saveSession() {
+      axios
+        .post(
+          `https://strapi-workout-backend.herokuapp.com/sessions?user.id=${this.$store.getters.getUserId}`,
+          this.session,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.getJwtToken}`
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        });
     }
   }
 };
