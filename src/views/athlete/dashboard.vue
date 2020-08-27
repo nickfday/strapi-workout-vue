@@ -4,6 +4,9 @@
     <router-link to="/athlete/activity-history">
       Activity History
     </router-link>
+    <router-link to="/athlete/activity-history">
+      Activity History
+    </router-link>
   </div>
 </template>
 

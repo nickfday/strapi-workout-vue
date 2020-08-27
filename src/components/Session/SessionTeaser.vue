@@ -1,6 +1,16 @@
 <template>
   <v-card outlined class="mb-10 p-2">
-    <h3>{{ session.title }}</h3>
+    <router-link
+      :to="{
+        name: 'sessionDetail',
+        path: `session/${session.id}`,
+        params: { session: session }
+      }"
+    >
+      <h3>{{ session.title }}</h3>
+    </router-link>
+
+    <v-btn>Session Detail</v-btn>
 
     <v-simple-table>
       <template v-slot:default>
@@ -18,6 +28,23 @@
         </tbody>
       </template>
     </v-simple-table>
+
+    <v-simple-table v-for="set in session.sessionGroup" v-bind:key="set.title"
+      ><template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">{{ set.exercise.title }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in set.session" v-bind:key="item.title">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.resistance }}kg x {{ item.reps }}</td>
+          </tr>
+        </tbody>
+
+        <tbody></tbody> </template
+    ></v-simple-table>
   </v-card>
 
   <!-- <div

@@ -58,6 +58,13 @@ const routes = [
     meta: { requriesAuth: true }
   },
   {
+    path: '/athlete/session/:id',
+    name: 'sessionDetail',
+    component: () => import('../views/athlete/session/detail.vue'),
+    meta: { requriesAuth: true },
+    props: true
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('../views/404')
