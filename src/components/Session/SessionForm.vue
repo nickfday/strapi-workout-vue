@@ -25,11 +25,11 @@
             <!-- <th class="text-left" width="40%">{{ set.exercise.title }}</th> -->
             <th class="text-left" width="40%">
               <v-select
-                label="Exercises"
                 :items="exercises"
-                item-text="title"
                 v-model="set.exercise"
-                clearable=""
+                label="Exercises"
+                clearable
+                autocomplete
               ></v-select>
             </th>
             <th>Resistance/Reps</th>
@@ -39,9 +39,8 @@
           <tr v-for="(item, index) in set.session" v-bind:key="item.title">
             <td>{{ index + 1 }}</td>
             <td>
-              <v-text-field :value="item.resistance" />
-              x
-              <v-text-field :value="item.reps" />
+              <v-text-field v-model="item.resistance" />x
+              <v-text-field v-model="item.reps" />
             </td>
           </tr>
         </tbody>
