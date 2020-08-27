@@ -56,7 +56,6 @@
             <td>{{ item.resistance }}kg x {{ item.reps }}</td>
           </tr>
         </tbody>
-
         <tbody></tbody>
       </template>
     </v-simple-table>

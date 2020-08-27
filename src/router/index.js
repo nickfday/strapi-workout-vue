@@ -57,12 +57,19 @@ const routes = [
     component: () => import('../views/athlete/activity-history.vue'),
     meta: { requriesAuth: true }
   },
+  // {
+  //   path: '/athlete/session/:id',
+  //   name: 'sessionDetail',
+  //   component: () => import('../views/athlete/session/detail.vue'),
+  //   meta: { requriesAuth: true },
+  //   props: true
+  // },
   {
-    path: '/athlete/session/:id',
-    name: 'sessionDetail',
-    component: () => import('../views/athlete/session/detail.vue'),
-    meta: { requriesAuth: true },
-    props: true
+    path: '/athlete/session/form',
+    // component: SessionForm,
+    name: 'SessionForm',
+    component: () => import('../components/Session/SessionForm'),
+    meta: { requriesAuth: true }
   },
   {
     path: '/404',
