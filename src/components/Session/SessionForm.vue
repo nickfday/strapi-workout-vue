@@ -8,11 +8,42 @@
         <!-- <h3>{{ session.title }}</h3> -->
       </v-col>
       <v-col>
-        <v-icon>mdi-calendar-range</v-icon>
-        {{ format(new Date(session.date), 'MM/dd/yyyy') }}
-        <!-- <v-date-picker></v-date-picker> -->
+        <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="session.date"
+              label="Date"
+              prepend-icon="mdi-calendar-range"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="session.date" no-title scrollable>
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)"
+              >OK</v-btn
+            >
+          </v-date-picker>
+        </v-menu>
       </v-col>
       <v-col>
+        <!-- <v-time-picker
+          v-model="e4"
+          color="green lighten-1"
+          header-color="primary"
+        ></v-time-picker> -->
+
         <v-icon>mdi-clock-time-eight-outline</v-icon>
         {{ session.time }} mins
       </v-col>
@@ -67,12 +98,14 @@ import fetchService from '@/services/fetchService';
 export default {
   data() {
     return {
+      date: null,
       format,
       exercises: [],
       session: {
         id: 1,
         title: '',
-        date: Date.now(),
+        //date: Date.now(),
+        date: new Date().toISOString().substr(0, 10),
         exercise: null,
         user: this.$store.getters.getUserId,
         created_at: Date.now(),
