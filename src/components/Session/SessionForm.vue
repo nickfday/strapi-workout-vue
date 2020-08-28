@@ -11,8 +11,32 @@
         <v-menu
           ref="menu"
           v-model="menu"
+          :close-on-content-click="true"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="session.date"
+              label="Date"
+              prepend-icon="mdi-calendar-range"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="session.date" no-title scrollable>
+          </v-date-picker>
+        </v-menu>
+      </v-col>
+      <v-col>
+        <v-menu
+          ref="menu"
+          v-model="timeMenu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :nudge-right="40"
+          :return-value.sync="time"
           transition="scale-transition"
           offset-y
           max-width="290px"
@@ -20,29 +44,27 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="session.date"
-              label="Date"
-              prepend-icon="mdi-calendar-range"
+              v-model="time"
+              label="Picker in menu"
+              prepend-icon="mdi-clock-time-eight-outline"
               readonly
               v-bind="attrs"
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="session.date" no-title scrollable>
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date)"
-              >OK</v-btn
-            >
-          </v-date-picker>
+          <v-time-picker
+            v-if="timeMenu"
+            v-model="session.totalTime"
+            full-width
+            @click:minute="$refs.menu.save(time)"
+          ></v-time-picker>
         </v-menu>
-      </v-col>
-      <v-col>
+
         <!-- <v-time-picker
           v-model="e4"
           color="green lighten-1"
           header-color="primary"
-        ></v-time-picker> -->
+        ></v-time-picker>-->
 
         <v-icon>mdi-clock-time-eight-outline</v-icon>
         {{ session.time }} mins
@@ -98,9 +120,11 @@ import fetchService from '@/services/fetchService';
 export default {
   data() {
     return {
-      date: null,
       format,
       exercises: [],
+      time: null,
+      timeMenu: false,
+      menu: false,
       session: {
         id: 1,
         title: '',
@@ -111,7 +135,7 @@ export default {
         created_at: Date.now(),
         updated_at: Date.now(),
         duration: null,
-        time: 45,
+        totalTime: null,
         sessionGroup: [
           {
             id: 1,
