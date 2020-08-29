@@ -45,7 +45,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="time"
-              label="Picker in menu"
+              label="Start Time"
               prepend-icon="mdi-clock-time-eight-outline"
               readonly
               v-bind="attrs"
@@ -60,6 +60,9 @@
           ></v-time-picker>
         </v-menu>
       </v-col>
+      <v-col
+        ><v-text-field label="Duration (mins)" v-model="session.duration"
+      /></v-col>
     </v-row>
 
     <v-simple-table v-for="set in session.sessionGroup" v-bind:key="set.title">
@@ -123,7 +126,6 @@ export default {
         updated_at: Date.now(),
         duration: null,
         totalTime: null,
-        totalTimeWithSeconds: null,
         sessionGroup: [
           {
             id: 1,
