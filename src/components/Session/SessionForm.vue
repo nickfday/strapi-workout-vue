@@ -173,9 +173,9 @@ export default {
         session: [{ id: 1, reps: null, resistance: null }]
       });
     },
-    saveSession() {
-      axios
-        .post(
+    async saveSession() {
+      try {
+        const data = await axios.post(
           `https://strapi-workout-backend.herokuapp.com/sessions?user.id=${this.$store.getters.getUserId}`,
           this.session,
           {
@@ -183,10 +183,13 @@ export default {
               Authorization: `Bearer ${this.$store.getters.getJwtToken}`
             }
           }
-        )
-        .then((response) => {
-          console.log(response);
-        });
+        );
+        console.log(data);
+        this.$router.push('/athlete/activity-history');
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
     setTotalTime(refs, time) {
       refs.menu.save(time);
