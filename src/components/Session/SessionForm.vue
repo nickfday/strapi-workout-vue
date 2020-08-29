@@ -5,7 +5,6 @@
     <v-row align="center">
       <v-col>
         <v-text-field label="Session Name" v-model="session.title" />
-        <!-- <h3>{{ session.title }}</h3> -->
       </v-col>
       <v-col>
         <v-menu
@@ -20,7 +19,6 @@
           <template v-slot:activator="{ on }">
             <v-text-field
               v-model="session.date"
-              label="Date"
               prepend-icon="mdi-calendar-range"
               readonly
               v-on="on"
@@ -30,6 +28,7 @@
           </v-date-picker>
         </v-menu>
       </v-col>
+
       <v-col>
         <v-menu
           ref="menu"
@@ -41,6 +40,7 @@
           offset-y
           max-width="290px"
           min-width="290px"
+          use-seconds
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
@@ -53,21 +53,12 @@
             ></v-text-field>
           </template>
           <v-time-picker
+            v-model="time"
             v-if="timeMenu"
-            v-model="session.totalTime"
             full-width
-            @click:minute="$refs.menu.save(time)"
+            @click:minute="setTotalTime($refs, time)"
           ></v-time-picker>
         </v-menu>
-
-        <!-- <v-time-picker
-          v-model="e4"
-          color="green lighten-1"
-          header-color="primary"
-        ></v-time-picker>-->
-
-        <v-icon>mdi-clock-time-eight-outline</v-icon>
-        {{ session.time }} mins
       </v-col>
     </v-row>
 
@@ -109,10 +100,6 @@
 </template>
 
 <script>
-// TODO:
-// Time Input
-// Date Input
-//
 import axios from 'axios';
 import { format } from 'date-fns';
 import fetchService from '@/services/fetchService';
@@ -136,6 +123,7 @@ export default {
         updated_at: Date.now(),
         duration: null,
         totalTime: null,
+        totalTimeWithSeconds: null,
         sessionGroup: [
           {
             id: 1,
@@ -177,6 +165,7 @@ export default {
         console.log(error);
       });
   },
+
   methods: {
     addExercise() {
       this.session.sessionGroup.push({
@@ -198,6 +187,11 @@ export default {
         .then((response) => {
           console.log(response);
         });
+    },
+    setTotalTime(refs, time) {
+      refs.menu.save(time);
+      this.session.totalTime = time + ':00';
+      this.timeMenu = false;
     }
   }
 };
