@@ -23,19 +23,20 @@ export default {
     };
   },
 
-  created() {
-    axios
-      .get(
-        `https://strapi-workout-backend.herokuapp.com/sessions?user.id=${this.$store.getters.getUserId}`,
+  async created() {
+    try {
+      const response = await axios.get(
+        `https://strapi-workout-backend.herokuapp.com/sessions?_sort=date:DESC&user.id=${this.$store.getters.getUserId}`,
         {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getJwtToken}`
           }
         }
-      )
-      .then((response) => {
-        this.sessions = response.data;
-      });
+      );
+      this.sessions = response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 </script>
