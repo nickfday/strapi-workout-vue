@@ -2,111 +2,116 @@
   <div>
     <h1>Edit Session</h1>
 
-    <v-row align="center">
-      <v-col>
-        <v-text-field
-          label="Session Name"
-          v-model="session.title"
-          :rules="[rules.required]"
-        />
-      </v-col>
-      <v-col>
-        <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="true"
-          transition="scale-transition"
-          offset-y
-          max-width="290px"
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="session.date"
-              prepend-icon="mdi-calendar-range"
-              readonly
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker v-model="session.date" no-title scrollable>
-          </v-date-picker>
-        </v-menu>
-      </v-col>
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-row align="center">
+        <v-col>
+          <v-text-field
+            label="Session Name"
+            v-model="session.title"
+            :rules="[rules.required]"
+          />
+        </v-col>
+        <v-col>
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="true"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="session.date"
+                prepend-icon="mdi-calendar-range"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="session.date" no-title scrollable>
+            </v-date-picker>
+          </v-menu>
+        </v-col>
 
-      <v-col>
-        <v-menu
-          ref="menu"
-          v-model="timeMenu"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          :return-value.sync="time"
-          transition="scale-transition"
-          offset-y
-          max-width="290px"
-          min-width="290px"
-          use-seconds
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+        <v-col>
+          <v-menu
+            ref="menu"
+            v-model="timeMenu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            :return-value.sync="time"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+            use-seconds
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="time"
+                label="Start Time"
+                prepend-icon="mdi-clock-time-eight-outline"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
               v-model="time"
-              label="Start Time"
-              prepend-icon="mdi-clock-time-eight-outline"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-time-picker
-            v-model="time"
-            v-if="timeMenu"
-            full-width
-            @click:minute="setTotalTime($refs, time)"
-          ></v-time-picker>
-        </v-menu>
-      </v-col>
-      <v-col
-        ><v-text-field
-          label="Duration (mins)"
-          v-model="session.duration"
-          maxlength="3"
-          :rules="[rules.required]"
-      /></v-col>
-    </v-row>
+              v-if="timeMenu"
+              full-width
+              @click:minute="setTotalTime($refs, time)"
+            ></v-time-picker>
+          </v-menu>
+        </v-col>
+        <v-col
+          ><v-text-field
+            label="Duration (mins)"
+            v-model="session.duration"
+            maxlength="3"
+            :rules="[rules.required]"
+        /></v-col>
+      </v-row>
 
-    <div v-for="set in session.sessionGroup" v-bind:key="set.title">
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <!-- <th class="text-left" width="40%">{{ set.exercise.title }}</th> -->
-              <th class="text-left" width="40%">
-                <v-select
-                  :items="exercises"
-                  v-model="set.exercise"
-                  label="Exercises"
-                  clearable
-                  autocomplete
-                  item-text="title"
-                  item-value="id"
-                ></v-select>
-              </th>
-              <th>Resistance/Reps</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in set.session" v-bind:key="item.title">
-              <td>{{ index + 1 }}</td>
-              <td>
-                <v-text-field v-model="item.resistance" />x
-                <v-text-field v-model="item.reps" />
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-      <v-btn v-on:click="addSet(set, index)">Add Set</v-btn>
-      <v-btn v-on:click="removeSet(set)">Remove Set</v-btn>
-    </div>
+      <div v-for="set in session.sessionGroup" v-bind:key="set.title">
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <!-- <th class="text-left" width="40%">{{ set.exercise.title }}</th> -->
+                <th class="text-left" width="40%">
+                  <v-select
+                    :items="exercises"
+                    v-model="set.exercise"
+                    label="Exercises"
+                    clearable
+                    item-text="title"
+                    item-value="id"
+                    :rules="[(v) => !!v || 'Exercise is required']"
+                    required
+                  ></v-select>
+                </th>
+                <th>Resistance/Reps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in set.session" v-bind:key="item.title">
+                <td>{{ index + 1 }}</td>
+                <td>
+                  <v-text-field v-model="item.resistance" />x
+                  <v-text-field v-model="item.reps" />
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        <v-btn v-on:click="addSet(set, index)">Add Set</v-btn>
+        <v-btn v-on:click="removeSet(set, session.sessionGroup)"
+          >Remove Set</v-btn
+        >
+      </div>
+    </v-form>
 
     <br />
     <br />
@@ -114,7 +119,7 @@
     <v-btn v-on:click="addExercise">Add Exercise</v-btn>
     <br />
     <br />
-    <v-btn v-on:click="saveSession">Save Session</v-btn>
+    <v-btn @click="validate" :disabled="!valid">Save Session</v-btn>
   </div>
 </template>
 
@@ -131,6 +136,7 @@ export default {
       time: null,
       timeMenu: false,
       menu: false,
+      valid: true,
       rules: {
         required: (value) => !!value || 'Required.'
       },
@@ -191,8 +197,19 @@ export default {
       });
       console.log(set);
     },
-    removeSet(set) {
+    removeSet(set, sessionGroup) {
       set.session.pop();
+      console.log(set.session.length);
+      if (set.session.length === 0) {
+        sessionGroup.pop();
+      }
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.saveSession();
+      } else {
+        return;
+      }
     },
     async saveSession() {
       try {
