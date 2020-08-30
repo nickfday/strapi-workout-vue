@@ -99,8 +99,11 @@
               <tr v-for="(item, index) in set.session" v-bind:key="item.title">
                 <td>{{ index + 1 }}</td>
                 <td>
-                  <v-text-field v-model="item.resistance" />x
-                  <v-text-field v-model="item.reps" />
+                  <v-text-field
+                    v-model="item.resistance"
+                    :rules="[rules.required]"
+                  />x
+                  <v-text-field v-model="item.reps" :rules="[rules.required]" />
                 </td>
               </tr>
             </tbody>
@@ -133,7 +136,7 @@ export default {
     return {
       format,
       exercises: [],
-      time: null,
+      time: new Date().toISOString().substr(11, 5),
       timeMenu: false,
       menu: false,
       valid: true,
@@ -205,8 +208,13 @@ export default {
       }
     },
     validate() {
+      // todo: prevent empty set
       if (this.$refs.form.validate()) {
-        this.saveSession();
+        if (this.session.sessionGroup.length > 0) {
+          this.saveSession();
+        } else {
+          alert('You need to at least one exercise');
+        }
       } else {
         return;
       }
