@@ -4,7 +4,11 @@
 
     <v-row align="center">
       <v-col>
-        <v-text-field label="Session Name" v-model="session.title" />
+        <v-text-field
+          label="Session Name"
+          v-model="session.title"
+          :rules="[rules.required]"
+        />
       </v-col>
       <v-col>
         <v-menu
@@ -61,40 +65,52 @@
         </v-menu>
       </v-col>
       <v-col
-        ><v-text-field label="Duration (mins)" v-model="session.duration"
+        ><v-text-field
+          label="Duration (mins)"
+          v-model="session.duration"
+          maxlength="3"
+          :rules="[rules.required]"
       /></v-col>
     </v-row>
 
-    <v-simple-table v-for="set in session.sessionGroup" v-bind:key="set.title">
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <!-- <th class="text-left" width="40%">{{ set.exercise.title }}</th> -->
-            <th class="text-left" width="40%">
-              <v-select
-                :items="exercises"
-                v-model="set.exercise"
-                label="Exercises"
-                clearable
-                autocomplete
-                item-text="title"
-                item-value="id"
-              ></v-select>
-            </th>
-            <th>Resistance/Reps</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in set.session" v-bind:key="item.title">
-            <td>{{ index + 1 }}</td>
-            <td>
-              <v-text-field v-model="item.resistance" />x
-              <v-text-field v-model="item.reps" />
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <div v-for="set in session.sessionGroup" v-bind:key="set.title">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <!-- <th class="text-left" width="40%">{{ set.exercise.title }}</th> -->
+              <th class="text-left" width="40%">
+                <v-select
+                  :items="exercises"
+                  v-model="set.exercise"
+                  label="Exercises"
+                  clearable
+                  autocomplete
+                  item-text="title"
+                  item-value="id"
+                ></v-select>
+              </th>
+              <th>Resistance/Reps</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in set.session" v-bind:key="item.title">
+              <td>{{ index + 1 }}</td>
+              <td>
+                <v-text-field v-model="item.resistance" />x
+                <v-text-field v-model="item.reps" />
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+      <v-btn v-on:click="addSet(set, index)">Add Set</v-btn>
+      <v-btn v-on:click="removeSet(set)">Remove Set</v-btn>
+    </div>
+
+    <br />
+    <br />
+
     <v-btn v-on:click="addExercise">Add Exercise</v-btn>
     <br />
     <br />
@@ -115,6 +131,9 @@ export default {
       time: null,
       timeMenu: false,
       menu: false,
+      rules: {
+        required: (value) => !!value || 'Required.'
+      },
       session: {
         id: 1,
         title: '',
@@ -138,16 +157,6 @@ export default {
                 id: 1,
                 reps: null,
                 resistance: null
-              },
-              {
-                id: 2,
-                reps: null,
-                resistance: null
-              },
-              {
-                id: 3,
-                reps: null,
-                resistance: null
               }
             ]
           }
@@ -167,13 +176,23 @@ export default {
         console.log(error);
       });
   },
-
   methods: {
     addExercise() {
       this.session.sessionGroup.push({
         id: 6,
         session: [{ id: 1, reps: null, resistance: null }]
       });
+    },
+    addSet(set, index) {
+      set.session.push({
+        id: index,
+        reps: null,
+        resistance: null
+      });
+      console.log(set);
+    },
+    removeSet(set) {
+      set.session.pop();
     },
     async saveSession() {
       try {
