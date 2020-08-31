@@ -35,17 +35,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // login({ commit }, credentials) {
-    //   return axios
-    //     .post(
-    //       'https://strapi-workout-backend.herokuapp.com/auth/local',
-    //       credentials,
-    //     )
-    //     .then(({ data }) => {
-    //       commit('SET_USER_DATA', data);
-    //     });
-    // },
-
     LOGIN({ commit }, credentials) {
       return axios
         .post(
@@ -79,20 +68,6 @@ export default new Vuex.Store({
         });
     },
 
-    // REGISTER: ({ commit }, payload) => {
-    //   return new Promise((resolve, reject) => {
-    //     fetchService
-    //       .postStrapiData('/auth/local/register', payload)
-    //       .then(({ data, status }) => {
-    //         if (status === 201) {
-    //           resolve(true);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         reject(error);
-    //       });
-    //   });
-    // },
     CLEAR_USER_DATA(state) {
       state.user = null;
       localStorage.removeItem('user');
