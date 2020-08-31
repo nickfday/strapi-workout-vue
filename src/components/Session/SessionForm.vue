@@ -23,13 +23,13 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="session.date"
+                v-model="dateDisplay"
                 prepend-icon="mdi-calendar-range"
                 readonly
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="session.date" no-title scrollable>
+            <v-date-picker v-model="dateDisplay" no-title scrollable>
             </v-date-picker>
           </v-menu>
         </v-col>
@@ -61,16 +61,17 @@
               v-model="time"
               v-if="timeMenu"
               full-width
-              @click:minute="setTotalTime($refs, time)"
+              @click:minute="$refs.menu.save(time)"
             ></v-time-picker>
           </v-menu>
         </v-col>
         <v-col
           ><v-text-field
             label="Duration (mins)"
-            v-model="session.duration"
+            v-model.number="session.totalDuration"
             maxlength="3"
             :rules="[rules.required]"
+            type="number"
         /></v-col>
       </v-row>
 
@@ -123,6 +124,7 @@
     <br />
     <br />
     <v-btn @click="validate" :disabled="!valid">Save Session</v-btn>
+    <!-- <v-btn @click="saveSession">Save Session</v-btn> -->
   </div>
 </template>
 
@@ -136,6 +138,7 @@ export default {
     return {
       format,
       exercises: [],
+      dateDisplay: new Date().toISOString().substr(0, 10),
       time: new Date().toISOString().substr(11, 5),
       timeMenu: false,
       menu: false,
@@ -144,16 +147,15 @@ export default {
         required: (value) => !!value || 'Required.'
       },
       session: {
-        id: 1,
+        id: 9,
         title: '',
-        //date: Date.now(),
-        date: new Date().toISOString().substr(0, 10),
+        date: null,
+        //date: null,
         exercise: null,
         user: this.$store.getters.getUserId,
         created_at: Date.now(),
         updated_at: Date.now(),
-        duration: null,
-        totalTime: null,
+        totalDuration: 45,
         sessionGroup: [
           {
             id: 1,
@@ -220,8 +222,9 @@ export default {
       }
     },
     async saveSession() {
+      console.log(this.session);
       try {
-        const data = await axios.post(
+        const response = await axios.post(
           `https://strapi-workout-backend.herokuapp.com/sessions?user.id=${this.$store.getters.getUserId}`,
           this.session,
           {
@@ -230,17 +233,24 @@ export default {
             }
           }
         );
-        console.log(data);
+        console.log(this.session);
+        console.log(response.data);
         this.$router.push('/athlete/activity-history');
-        return data;
+        return response;
       } catch (error) {
         console.log(error);
       }
-    },
-    setTotalTime(refs, time) {
-      refs.menu.save(time);
-      this.session.totalTime = time + ':00';
-      this.timeMenu = false;
+    }
+
+    // setDateAndTime(refs, time) {
+    //   this.timeMenu = false;
+    //   refs.menu.save(time);
+    //   this.session.date = this.dateDisplay + time + ':00';
+    // }
+  },
+  computed: {
+    calculateTotalTime() {
+      return `${this.dateDisplay}T${this.time}:00.000Z`;
     }
   }
 };
