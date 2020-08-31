@@ -222,6 +222,7 @@ export default {
       }
     },
     async saveSession() {
+      this.session.date = this.calculateTotalTime;
       console.log(this.session);
       try {
         const response = await axios.post(
