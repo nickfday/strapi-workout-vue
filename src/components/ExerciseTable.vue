@@ -34,15 +34,23 @@
       :items="filteredList"
       :items-per-page="15"
       class="elevation-1"
-      :loading="this.$store.getters.loading"
+      :loading="exercises.loading"
       loading-text="Fetching Exercises"
       no-results-text="No Exercises Found. Please adjust filters"
       sort-by="title"
-    ></v-data-table>
+    >
+      <template v-slot:item.title="{ item }">
+        <router-link :to="'/exercise/' + item.slug"
+          >{{ item.title }}
+        </router-link>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -112,7 +120,7 @@ export default {
       });
     },
     formattedExercises() {
-      return this.$store.getters.exercises.map((exercise) => {
+      return this.exercises.map((exercise) => {
         return {
           title: exercise.title,
           type: exercise.type.replace(/_/g, ' '),
@@ -122,7 +130,8 @@ export default {
           slug: exercise.slug
         };
       });
-    }
+    },
+    ...mapGetters(['exercises'])
   }
 };
 </script>

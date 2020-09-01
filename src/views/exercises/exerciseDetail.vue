@@ -40,7 +40,9 @@
                 icon="people-fill"
                 class="mr-3"
               ></b-avatar>
-              <span class="mr-auto">{{ exercise.equipment[0].title }}</span>
+              <span class="mr-auto">{{
+                this.exercise.equipment[0].title
+              }}</span>
             </b-list-group-item>
             <b-list-group-item class="d-flex align-items-center">
               <b-avatar
@@ -62,24 +64,18 @@
 </template>
 
 <script>
-import fetchService from '@/services/fetchService';
+import { mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      exercise: {}
-    };
-  },
   created() {
-    fetchService
-      .fetchStrapiData(`exercises?slug=bench-press`)
-      .then((response) => {
-        console.log(response);
-        this.exercise = response.data[0];
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.$store.dispatch('FETCH_EXERCISE_DETAIL');
+  },
+  computed: {
+    // mix the getters into computed with object spread operator
+    ...mapGetters([
+      'exercise'
+      // ...
+    ])
   }
 };
 </script>
