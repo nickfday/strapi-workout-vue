@@ -124,7 +124,6 @@
     <br />
     <br />
     <v-btn @click="validate" :disabled="!valid">Save Session</v-btn>
-    <!-- <v-btn @click="saveSession">Save Session</v-btn> -->
   </div>
 </template>
 
@@ -150,7 +149,6 @@ export default {
         id: 9,
         title: '',
         date: null,
-        //date: null,
         exercise: null,
         user: this.$store.getters.getUserId,
         created_at: Date.now(),
@@ -242,12 +240,6 @@ export default {
         console.log(error);
       }
     }
-
-    // setDateAndTime(refs, time) {
-    //   this.timeMenu = false;
-    //   refs.menu.save(time);
-    //   this.session.date = this.dateDisplay + time + ':00';
-    // }
   },
   computed: {
     calculateTotalTime() {
