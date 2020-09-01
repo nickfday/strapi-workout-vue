@@ -34,7 +34,7 @@
       :items="filteredList"
       :items-per-page="15"
       class="elevation-1"
-      :loading="loading"
+      :loading="this.$store.getters.loading"
       loading-text="Fetching Exercises"
       no-results-text="No Exercises Found. Please adjust filters"
       sort-by="title"
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import fetchService from '@/services/fetchService';
+// import fetchService from '@/services/fetchService';
 
 export default {
   data() {
@@ -51,8 +51,6 @@ export default {
       exerciseFilter: '',
       selectedPrimaryMuscle: '',
       selectedType: '',
-      exercises: [],
-      loading: true,
       fields: [
         {
           text: 'Exercises',
@@ -79,16 +77,9 @@ export default {
     }
   },
   created() {
-    fetchService
-      .fetchStrapiData('exercises')
-      .then((response) => {
-        console.log(response);
-        this.loading = false;
-        this.exercises = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.$store.dispatch('FETCH_EXERCISES');
+    //TODO: Check local storage before fetching
+    //this.$store.dispatch('CHECK_LOCAL_STORAGE_EXERCISES');
   },
   methods: {
     selectOptions(field) {
@@ -123,7 +114,7 @@ export default {
       });
     },
     formattedExercises() {
-      return this.exercises.map((exercise) => {
+      return this.$store.getters.exercises.map((exercise) => {
         return {
           title: exercise.title,
           type: exercise.type.replace(/_/g, ' '),
