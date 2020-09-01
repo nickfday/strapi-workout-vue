@@ -1,4 +1,3 @@
-//import axios from 'axios';
 import fetchService from '@/services/fetchService';
 
 export const state = {
