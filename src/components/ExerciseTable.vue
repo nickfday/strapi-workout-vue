@@ -43,8 +43,6 @@
 </template>
 
 <script>
-// import fetchService from '@/services/fetchService';
-
 export default {
   data() {
     return {

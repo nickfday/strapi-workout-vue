@@ -1,4 +1,5 @@
-import axios from 'axios';
+//import axios from 'axios';
+import fetchService from '@/services/fetchService';
 
 export const state = {
   exercises: [],
@@ -10,9 +11,8 @@ export const actions = {
   async FETCH_EXERCISES({ commit }) {
     console.log('FETCH');
     try {
-      const response = await axios(
-        'https://strapi-workout-backend.herokuapp.com/exercises'
-      );
+      const response = await fetchService.fetchData('/exercises');
+
       localStorage.setItem('exercises', response.data);
       commit('SET_EXERCISES', response.data);
       // return response.data;
