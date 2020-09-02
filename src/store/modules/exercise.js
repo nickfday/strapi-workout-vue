@@ -20,17 +20,22 @@ export const actions = {
       console.log(error);
     }
   },
-  //TODO: get slug from url
   // TODO: only fetch if not in router prop
   async FETCH_EXERCISE_DETAIL({ commit }) {
     try {
       const response = await fetchService.fetchData(
-        '/exercises?slug=bench-press'
+        `/exercises?slug=${window.location.href.substr(
+          window.location.href.lastIndexOf('/') + 1
+        )}`
       );
       commit('SET_EXERCISES_DETAIL', response.data);
     } catch (error) {
       console.log(error);
     }
+  },
+  EXERCISE_DETAIL_NAVIGATE({ commit }, data) {
+    console.log(data);
+    commit('SET_EXERCISES_DETAIL', data);
   },
   //TODO: Check local storage
   CHECK_LOCAL_STORAGE_EXERCISES({ commit, dispatch }) {
@@ -40,6 +45,7 @@ export const actions = {
       dispatch('FETCH_EXERCISES');
     }
   }
+  // FORMAT_EXERCISES({ commit, dispatch }) {}
 };
 export const mutations = {
   SET_EXERCISES(state, data) {
