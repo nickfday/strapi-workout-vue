@@ -103,7 +103,7 @@
       </v-col>
     </v-row>
 
-    <div v-html="compiledMarkdown(exercise.body)"></div>
+    <div v-html="compiledMarkdown(exercise.body)" class="markdown"></div>
   </div>
 </template>
 
@@ -135,26 +135,4 @@ export default {
 };
 </script>
 
-<style>
-h2,
-h3,
-h4,
-h5,
-h6 {
-  border-bottom: 2px solid black;
-  display: inline-block;
-}
-ul,
-ol {
-  padding-left: 17px;
-}
-img {
-  width: 400px;
-}
-@media only screen and (min-width: 600px) {
-  img {
-    float: right;
-    margin: 0 0 20px 10px;
-  }
-}
-</style>
+<style></style>

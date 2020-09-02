@@ -7,3 +7,26 @@
 #nprogress .bar {
   background: yellow;
 }
+
+/* Markdown */
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  border-bottom: 2px solid black;
+  display: inline-block;
+}
+.markdown ul,
+.markdown ol {
+  padding-left: 17px;
+}
+.markdown img {
+  width: 400px;
+}
+@media only screen and (min-width: 600px) {
+  .markdown img {
+    float: right;
+    margin: 0 0 20px 10px;
+  }
+}
