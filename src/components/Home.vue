@@ -36,7 +36,7 @@ export default {
 
   created() {
     fetchService
-      .fetchStrapiData('pages/1')
+      .fetchData('pages/1')
       .then((response) => {
         console.log(response);
         this.pageData = response.data;
