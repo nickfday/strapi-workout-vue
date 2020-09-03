@@ -1,22 +1,28 @@
 <template>
   <div>
     <h1>Register</h1>
-    <form @submit.prevent="register">
-      <v-text-field v-model="username" label="username" name="username" value />
+    <v-form
+      ref="form"
+      @submit.prevent="register"
+      v-model="valid"
+      lazy-validation
+    >
+      <v-text-field v-model="username" label="Username" name="username" value />
 
       <v-text-field
         v-model="email"
-        label="email"
+        label="Email"
         name="email"
-        :rules="emailRules"
+        :rules="rules.emailRules"
         value
       />
 
       <v-text-field
         v-model="password"
-        label="password"
+        label="Password"
         name="password"
         type="password"
+        :rules="[rules.required, rules.min, passwordConfirmRule]"
         value
       />
 
@@ -36,8 +42,8 @@
         </p>
       </div>
 
-      <v-btn type="submit">Register</v-btn>
-    </form>
+      <v-btn type="submit" :disabled="!valid">Register</v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -51,16 +57,23 @@ export default {
       confirmPassword: '',
       userExists: false,
       registerSuccess: false,
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
-      ]
+      valid: true,
+
+      rules: {
+        required: (value) => !!value || 'Required.',
+        min: (v) => v.length >= 8 || 'Min 8 characters',
+        emailRules: [
+          (v) => !!v || 'E-mail is required',
+          (v) => /.+@.+/.test(v) || 'E-mail must be valid'
+        ]
+      }
     };
   },
   methods: {
     register() {
-      console.log('register');
-      if (this.valid()) {
+      if (this.$refs.form.validate()) {
+        console.log('register');
+
         this.$store
           .dispatch('REGISTER', {
             username: this.username,
@@ -76,9 +89,11 @@ export default {
             this.userExists = true;
           });
       }
-    },
-    valid() {
-      return this.password === this.confirmPassword;
+    }
+  },
+  computed: {
+    passwordConfirmRule() {
+      return this.password === this.confirmPassword || 'Password must match';
     }
   }
 };
