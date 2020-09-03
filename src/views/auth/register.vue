@@ -2,20 +2,29 @@
   <div>
     <h1>Register</h1>
     <form @submit.prevent="register">
-      <label for="username">Name:</label>
-      <input v-model="username" type="text" name="username" value />
+      <v-text-field v-model="username" label="username" name="username" value />
 
-      <label for="email">Email:</label>
-      <input v-model="email" type="text" name="email" value />
+      <v-text-field
+        v-model="email"
+        label="email"
+        name="email"
+        :rules="emailRules"
+        value
+      />
 
-      <label for="password">Password:</label>
-      <input v-model="password" type="text" name="password" value />
+      <v-text-field
+        v-model="password"
+        label="password"
+        name="password"
+        type="password"
+        value
+      />
 
-      <label for="confirmPassword">Confirm Password:</label>
-      <input
+      <v-text-field
         v-model="confirmPassword"
-        type="text"
+        label="Confirm Password"
         name="confirmPassword"
+        type="password"
         value
       />
 
@@ -27,7 +36,7 @@
         </p>
       </div>
 
-      <button type="submit" name="button">Register</button>
+      <v-btn type="submit">Register</v-btn>
     </form>
   </div>
 </template>
@@ -41,7 +50,11 @@ export default {
       password: '',
       confirmPassword: '',
       userExists: false,
-      registerSuccess: false
+      registerSuccess: false,
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
+      ]
     };
   },
   methods: {
