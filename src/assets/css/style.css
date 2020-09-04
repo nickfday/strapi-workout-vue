@@ -30,3 +30,8 @@
     margin: 0 0 20px 10px;
   }
 }
+
+/* Card */
+a.v-card:hover {
+  text-decoration: none;
+}
