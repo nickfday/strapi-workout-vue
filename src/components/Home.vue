@@ -2,19 +2,18 @@
   <div>
     <v-carousel hide-delimiters>
       <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src">
-        <v-row class="fill-height" align="center" justify="center">
-          <!-- <div class="display-3">
+        <!-- <div class="display-3">
             {{ item.heading }}
           </div> -->
-          <ctaBox
-            :heading="item.heading"
-            :body="item.body"
-            ctaText=""
-            ctaUrl=""
-            fullWidth="true"
-            padding="30px"
-          />
-        </v-row>
+        <CtaBox
+          :heading="item.heading"
+          :body="item.body"
+          ctaText=""
+          ctaUrl=""
+          fullWidth="true"
+          padding="30px"
+          wrapperClasses="flex-end align-end"
+        />
       </v-carousel-item>
     </v-carousel>
 
@@ -30,7 +29,8 @@
             height="200px"
             :src="card.media.url"
           >
-            <v-card-title>{{ card.title }}</v-card-title>
+            <!-- <v-card-title>{{ card.title }}</v-card-title> -->
+            <CtaBox :body="card.title" fullWidth="true" padding="0 30px" />
           </v-img>
 
           <v-card-text class="text--primary">
@@ -45,19 +45,14 @@
       src="https://strapi-workout.s3.eu-west-2.amazonaws.com/pexels-freestocksorg-892757_48d3968168.jpeg"
       height="400"
     >
-      <v-row align="center" justify="center">
-        <v-col class="text-center" cols="12">
-          <h1 class="display-1 font-weight-thin mb-4">App coming soon!</h1>
-          <ctaBox
-            heading="App coming soon!"
-            body=""
-            ctaText=""
-            ctaUrl=""
-            fullWidth="true"
-          />
-          <!-- <h4 class="subheading">Build your application today!</h4> -->
-        </v-col>
-      </v-row>
+      <!-- <h1 class="display-1 font-weight-thin mb-4">App coming soon!</h1> -->
+      <CtaBox
+        heading="App coming soon!"
+        fullWidth="true"
+        padding="10px"
+        wrapperClasses="text-center align-center justify-center"
+      />
+      <!-- <h4 class="subheading">Build your application today!</h4> -->
     </v-parallax>
   </div>
 </template>
