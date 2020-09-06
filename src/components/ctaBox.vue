@@ -33,7 +33,7 @@ export default {
 
 <style>
 .cta-box {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: inline-block;
   padding: var(--padding);
 }
