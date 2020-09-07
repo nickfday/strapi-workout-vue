@@ -1,12 +1,7 @@
 <template>
   <div>
     <h1>Login</h1>
-    <v-form
-      lazy-validation
-      v-model="valid"
-      ref="form"
-      @submit.prevent="handleLogin"
-    >
+    <v-form v-model="valid" ref="form" @submit.prevent="handleLogin">
       <v-text-field
         v-model="identifier"
         :rules="emailRules"
@@ -23,7 +18,7 @@
         counter
       ></v-text-field>
 
-      <v-btn type="submit">Login</v-btn>
+      <v-btn type="submit" :disabled="!valid">Login</v-btn>
       <div v-if="error">There is an error</div>
     </v-form>
   </div>
@@ -37,7 +32,7 @@ export default {
     password: '',
     token: '',
     error: false,
-    valid: true,
+    valid: false,
     emailRules: [
       (v) => !!v || 'E-mail is required',
       (v) => /.+@.+/.test(v) || 'E-mail must be valid'
@@ -62,7 +57,7 @@ export default {
           })
           .then((success) => {
             console.log(success);
-            this.$router.push('/');
+            this.$router.push('/athlete/dashboard');
           })
           .catch((error) => {
             console.log(error);

@@ -6,6 +6,7 @@ import NProgress from 'nprogress'; // <--- include the library
 import Home from '../views/Home.vue';
 import Exercises from '../views/exercises';
 import ExerciseDetail from '../views/exercises/exerciseDetail';
+import RoutineList from '@/components/Routines/RoutineList';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/exercises',
     name: 'exercises',
     component: Exercises
+  },
+  {
+    path: '/routines',
+    name: 'routine',
+    component: RoutineList
   },
   {
     path: '/exercise/:id',

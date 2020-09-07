@@ -1,12 +1,7 @@
 <template>
   <div>
     <h1>Register</h1>
-    <v-form
-      ref="form"
-      @submit.prevent="register"
-      v-model="valid"
-      lazy-validation
-    >
+    <v-form ref="form" @submit.prevent="register" v-model="valid">
       <v-text-field v-model="username" label="Username" name="username" value />
 
       <v-text-field
@@ -34,6 +29,13 @@
         value
       />
 
+      <v-checkbox
+        v-model="checkbox"
+        label="I Accept the terms and conditions"
+        :rules="[rules.required]"
+        value
+      ></v-checkbox>
+
       <div v-if="registerSuccess">
         <p>
           Registration Successful. Please
@@ -57,7 +59,7 @@ export default {
       confirmPassword: '',
       userExists: false,
       registerSuccess: false,
-      valid: true,
+      valid: false,
 
       rules: {
         required: (value) => !!value || 'Required.',

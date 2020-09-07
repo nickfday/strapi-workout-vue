@@ -34,7 +34,11 @@
             <v-subheader
               v-if="item.header"
               :key="item.header"
-              v-text="item.header"
+              v-text="
+                !loggedIn
+                  ? item.header
+                  : 'Welcome back. Visit your dashboard to access features such as'
+              "
             ></v-subheader>
 
             <v-divider
@@ -78,8 +82,8 @@
 
       <!-- LoggedIn CTA -->
 
-      <v-col v-else>
-        <v-btn x-large color="primary" href="/athlete/dashboard">
+      <v-col v-else align-self="center" class="text-center">
+        <v-btn x-large color="primary" to="/athlete/dashboard">
           Dashboard
         </v-btn>
       </v-col>
