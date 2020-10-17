@@ -23,4 +23,6 @@ module.exports = {
     'plugin:prettier/recommended',
     '@vue/typescript'
   ]
+
+
 };
