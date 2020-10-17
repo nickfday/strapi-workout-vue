@@ -2,12 +2,14 @@
   <Home />
 </template>
 
-<script>
-import Home from '@/components/Home';
+<script lang="ts">
+import Vue from 'vue';
+import Home from '@/components/Home.vue';
 
-export default {
-  components: { Home }
-};
+export default Vue.extend({
+  name: 'home',
+  components: {
+    Home
+  }
+});
 </script>
-
-<style></style>

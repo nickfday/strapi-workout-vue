@@ -75,6 +75,16 @@ export default {
         title: 'Exercises',
         slug: '/exercises',
         icon: 'mdi-arm-flex'
+      },
+      {
+        title: 'Routines',
+        slug: '/routines',
+        icon: 'mdi-book'
+      },
+      {
+        title: 'Dashboard',
+        slug: '/athlete/dashboard',
+        auth: true
       }
     ],
     userMenu: [
