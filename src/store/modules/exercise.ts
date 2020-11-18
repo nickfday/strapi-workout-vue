@@ -8,7 +8,7 @@ export const state = {
 
 export const actions = {
   // fetch exercises
-  async FETCH_EXERCISES({ commit }) {
+  async FETCH_EXERCISES({ commit }: { commit: Function }) {
     console.log('FETCH');
     try {
       const response = await fetchService.fetchData('/exercises');
@@ -21,7 +21,7 @@ export const actions = {
     }
   },
   // TODO: only fetch if not in router prop
-  async FETCH_EXERCISE_DETAIL({ commit }) {
+  async FETCH_EXERCISE_DETAIL({ commit }: { commit: Function }) {
     try {
       const response = await fetchService.fetchData(
         `/exercises?slug=${window.location.href.substr(

@@ -12,8 +12,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   computed: {
     cssVars() {
       return { '--padding': this.padding };
@@ -28,7 +30,7 @@ export default {
     'padding',
     'wrapperClasses'
   ]
-};
+});
 </script>
 
 <style>
